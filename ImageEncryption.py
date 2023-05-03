@@ -6,8 +6,8 @@ def encrypt_image(image_path):
     img = Image.open(image_path)
     pixels = list(img.getdata())
 
-    # Generate an encryption key
-    key = 255
+    # Generate a random encryption key
+    key = random.randint(1, 255)
 
     # Encrypt the pixel values
     encrypted_pixels = []
