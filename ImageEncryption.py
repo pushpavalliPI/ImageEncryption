@@ -1,18 +1,20 @@
 from PIL import Image
 import random
-
+#Generate a random Caesar encryption key
+c = random.randint(1,50)
 def encrypt_image(image_path):
     # Open the image and convert it to a list of pixel values
     img = Image.open(image_path)
     pixels = list(img.getdata())
 
-    # Generate a random encryption key
+    # Generate a random xor encryption key 
     key = random.randint(1, 255)
+    
 
     # Encrypt the pixel values
     encrypted_pixels = []
     for pixel in pixels:
-        encrypted_pixels.append(tuple((val ^ key) for val in pixel))
+        encrypted_pixels.append(tuple(((val ^ key)+c) for val in pixel))
 
     # Save the encrypted image
     encrypted_img = Image.new(img.mode, img.size)
@@ -30,7 +32,7 @@ def decrypt_image(image_path, key):
     # Decrypt the pixel values
     decrypted_pixels = []
     for pixel in pixels:
-        decrypted_pixels.append(tuple((val ^ key) for val in pixel))
+        decrypted_pixels.append(tuple((val-c ^ key) for val in pixel))
 
     # Save the decrypted image
     decrypted_img = Image.new(img.mode, img.size)
@@ -39,7 +41,8 @@ def decrypt_image(image_path, key):
 
 # Encrypt an image and get the encryption key
 key = encrypt_image('image.png')
-print(f"The encryption key is: {key}")
+print(f"The XOR encryption key is: {key}")
+print(f"The Caesar encryption key is: {c}")
 
 # Decrypt the encrypted image using the encryption key
 decrypt_image('encrypted_image.png', key)
